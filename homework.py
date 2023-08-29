@@ -77,8 +77,8 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
 
-    CALORIES_WEIGHT_COEFFICIENT_1 = 0.035
-    CALORIES_WEIGHT_COEFFICIENT_2 = 0.029
+    CALORIES_WEIGHT_MULTIPLIER = 0.035
+    CALORIES_DURATION_MULTIPLIER = 0.029
     KM_TO_M = 0.278
     M_TO_SM = 100
 
