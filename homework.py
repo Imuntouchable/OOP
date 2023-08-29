@@ -77,8 +77,8 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
 
-    WEIGHT_COEFFICIENT_1 = 0.035
-    WEIGHT_COEFFICIENT_2 = 0.029
+    CALORIES_WEIGHT_COEFFICIENT_1 = 0.035
+    CALORIES_WEIGHT_COEFFICIENT_2 = 0.029
     KM_TO_M = 0.278
     M_TO_SM = 100
 
@@ -94,9 +94,10 @@ class SportsWalking(Training):
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        return (((self.WEIGHT_COEFFICIENT_1 * self.weight) + (((self.KM_TO_M
+        return (((self.CALORIES_WEIGHT_COEFFICIENT_1
+                * self.weight) + (((self.KM_TO_M
                  * self.get_mean_speed()) ** 2) / (self.height / self.M_TO_SM))
-                * self.WEIGHT_COEFFICIENT_2 * self.weight)
+                * self.CALORIES_WEIGHT_COEFFICIENT_2 * self.weight)
                 * (self.duration * self.MINUTES_IN_HOURS))
 
 
@@ -133,14 +134,14 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: List[float]) -> Training:
     """Прочитать данные полученные от датчиков."""
-    sports_types: Dict[str, Type[Training]] = {'SWM': Swimming,
-                                               'RUN': Running,
-                                               'WLK': SportsWalking
-                                               }
-    try:
-        return sports_types[workout_type](*data)
-    except KeyError:
-        raise KeyError('Неизвестный тип тренировки')
+    sports_types: Dict[str, Type[Training]] = {
+        'SWM': Swimming,
+        'RUN': Running,
+        'WLK': SportsWalking
+    }
+    if workout_type not in sports_types:
+        raise ValueError('Неизвестный тип тренировки')
+    return sports_types[workout_type](*data)
 
 
 def main(training: Training) -> None:
